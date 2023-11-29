@@ -14,4 +14,8 @@ defmodule Mesa.BucketTest do
 
     assert Mesa.Bucket.delete(bucket, "milk") == 3
   end
+
+  test "are temporary workers" do
+    assert Supervisor.child_spec(Mesa.Bucket, []).restart == :temporary
+  end
 end

@@ -22,4 +22,13 @@ defmodule Mesa.RegistryTest do
     Agent.stop(bucket)
     assert Mesa.Registry.lookup(registry, "shopping") == :error
   end
+
+  test "removes buckets on crash", %{registry: registry} do
+    Mesa.Registry.create(registry, "shopping")
+    {:ok, bucket} = Mesa.Registry.lookup(registry, "shopping")
+
+    # Stops the bucket with non-normal reason
+    Agent.stop(bucket, :shutdown)
+    assert Mesa.Registry.lookup(registry, "shopping") == :error
+  end
 end

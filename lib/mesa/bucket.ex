@@ -1,5 +1,5 @@
 defmodule Mesa.Bucket do
-  use Agent
+  use Agent, restart: :temporary
 
   @doc """
   Stars a new bucket.
