@@ -1,9 +1,9 @@
 defmodule Mesa.RegistryTest do
   use ExUnit.Case, async: true
 
-  setup do
-    registry = start_supervised!(Mesa.Registry)
-    %{registry: registry}
+  setup context do
+    _ = start_supervised!({Mesa.Registry, name: context.test})
+    %{registry: context.test}
   end
 
   test "spawns buckets", %{registry: registry} do
@@ -20,6 +20,8 @@ defmodule Mesa.RegistryTest do
     Mesa.Registry.create(registry, "shopping")
     {:ok, bucket} = Mesa.Registry.lookup(registry, "shopping")
     Agent.stop(bucket)
+
+    _ = Mesa.Registry.create(registry, "bogus")
     assert Mesa.Registry.lookup(registry, "shopping") == :error
   end
 
@@ -29,6 +31,8 @@ defmodule Mesa.RegistryTest do
 
     # Stops the bucket with non-normal reason
     Agent.stop(bucket, :shutdown)
+
+    _ = Mesa.Registry.create(registry, "bogus")
     assert Mesa.Registry.lookup(registry, "shopping") == :error
   end
 end
