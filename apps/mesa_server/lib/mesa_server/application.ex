@@ -9,7 +9,7 @@ defmodule MesaServer.Application do
 
     children = [
       {Task.Supervisor, name: MesaServer.TaskSupervisor},
-      Supervisor.child_spec({Task, fn -> MesaServer.accept(port) end}, restart: permanent)
+      Supervisor.child_spec({Task, fn -> MesaServer.accept(port) end}, restart: :permanent)
     ]
 
     opts = [strategy: :one_for_one, name: MesaServer.Supervisor]
