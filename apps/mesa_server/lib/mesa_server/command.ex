@@ -45,8 +45,10 @@ defmodule MesaServer.Command do
   def run(command)
 
   def run({:create, bucket}) do
-    Mesa.Registry.create(Mesa.Registry, bucket)
-    {:ok, "OK\r\n"}
+    case Mesa.Router.route(bucket, Mesa.Registry, :create, [Mesa.Registry, bucket]) do
+      pid when is_pid(pid) -> {:ok, "OK\r\n"}
+      _ -> {:error, "FAILED TO CREATE BUCKET"}
+    end
   end
 
   def run({:get, bucket, key}) do
@@ -71,7 +73,7 @@ defmodule MesaServer.Command do
   end
 
   defp lookup(bucket, callback) do
-    case Mesa.Registry.lookup(Mesa.Registry, bucket) do
+    case Mesa.Router.route(bucket, Mesa.Registry, :lookup, [Mesa.Registry, bucket]) do
       {:ok, pid} -> callback.(pid)
       :error -> {:error, :not_found}
     end

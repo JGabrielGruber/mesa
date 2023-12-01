@@ -9,7 +9,8 @@ defmodule Mesa.Supervisor do
   def init(:ok) do
     children = [
       {DynamicSupervisor, name: Mesa.BucketSupervisor, strategy: :one_for_one},
-      {Mesa.Registry, name: Mesa.Registry}
+      {Mesa.Registry, name: Mesa.Registry},
+      {Task.Supervisor, name: Mesa.RouterTasks}
     ]
 
     Supervisor.init(children, strategy: :one_for_all)
