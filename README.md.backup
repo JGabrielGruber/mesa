@@ -4,7 +4,7 @@ Simple Key Value registry built with Elixir
 
 ## Introduction
 
-Mesa is similar to **Redis**, but with lot less functionality, it stores `buckets->keys->value`, it communicates trough **Telnet** and supports a multi-node setup, where it'll manage the buckets trough different nodes.
+Mesa is similar to **Redis**, but with lot less functionality, it stores `buckets->keys->value`, it communicates trough **Telnet** and supports a multi-node setup, where it'll route the buckets trough different nodes.
 
 ## Code Structure
 
