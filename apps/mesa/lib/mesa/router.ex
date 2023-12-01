@@ -31,6 +31,6 @@ defmodule Mesa.Router do
   The routing table.
   """
   def table() do
-    [{?a..?m, :"foo@phury"}, {?n..?z, :"bar@phury"}]
+    Application.fetch_env!(:mesa, :routing_table)
   end
 end
